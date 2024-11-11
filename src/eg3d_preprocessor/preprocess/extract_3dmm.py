@@ -1,23 +1,15 @@
 import os
 
-from PIL import Image
 import numpy as np
-
 import torch
-from pathlib import Path
-import sys
+from PIL import Image
 
-from eg3d_preprocessor.env import REPO_ROOT_DIR
-
-sys.path.append(f"{REPO_ROOT_DIR}/submodules/Deep3DFaceRecon")
-sys.path.append(f"{REPO_ROOT_DIR}/submodules/insightface/recognition")
-
-from options.test_options import TestOptions
 # from data import create_dataset
-from models import create_model
+from eg3d_preprocessor.Deep3DFaceRecon.models import create_model
+from eg3d_preprocessor.Deep3DFaceRecon.options.test_options import TestOptions
+from eg3d_preprocessor.Deep3DFaceRecon.util.load_mats import load_lm3d
 # from third_part.Deep3DFaceRecon_pytorch.util.visualizer import MyVisualizer
-from util.preprocess import align_img
-from util.load_mats import load_lm3d
+from eg3d_preprocessor.Deep3DFaceRecon.util.preprocess import align_img
 
 
 # calculating least square problem for image alignment

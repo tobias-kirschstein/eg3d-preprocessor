@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "eg3d_preprocessor"
-version = "0.0.2"
+version = "0.0.3"
 description = "<<<ENTER_DESCRIPTION>>>"
 authors = [
     { name = "Tobias Kirschstein", email = "tobias.kirschstein@gmail.com" },
@@ -32,4 +32,4 @@ dev = [
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["eg3d_preprocessor*", "submodules*"]  # Keep the '*', otherwise submodules are not found
+include = ["eg3d_preprocessor*"]  # Keep the '*', otherwise submodules are not found
