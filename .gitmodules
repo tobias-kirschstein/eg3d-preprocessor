@@ -1,0 +1,6 @@
+[submodule "submodules/Deep3DFaceRecon"]
+	path = submodules/Deep3DFaceRecon
+	url = git@github.com:sicxu/Deep3DFaceRecon_pytorch.git
+[submodule "submodules/insightface"]
+	path = submodules/insightface
+	url = https://github.com/deepinsight/insightface.git
