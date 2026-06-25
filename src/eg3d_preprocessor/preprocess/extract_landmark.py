@@ -5,7 +5,7 @@ import face_alignment
 import numpy as np
 
 
-detector = face_alignment.FaceAlignment(face_alignment.LandmarksType.TWO_D)
+detector = face_alignment.FaceAlignment(face_alignment.LandmarksType.TWO_D, compile=False)
 
 
 def get_landmark(image):
