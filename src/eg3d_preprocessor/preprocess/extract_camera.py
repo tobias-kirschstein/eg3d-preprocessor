@@ -85,17 +85,36 @@ class CameraExtractor:
 
     def __init__(self):
         bfm_assets_folder = f'{Path.home()}/.cache/BFM/'
-        if not Path(bfm_assets_folder).exists():
+        if not Path(f"{bfm_assets_folder}/BFM_exp_idx.mat").exists():
             download_github_file("https://github.com/sicxu/Deep3DFaceRecon_pytorch/blob/master/BFM/BFM_exp_idx.mat", f"{bfm_assets_folder}/BFM_exp_idx.mat")
+
+        if not Path(f"{bfm_assets_folder}/BFM_front_idx.mat").exists():
             download_github_file("https://github.com/sicxu/Deep3DFaceRecon_pytorch/blob/master/BFM/BFM_front_idx.mat", f"{bfm_assets_folder}/BFM_front_idx.mat")
+
+        if not Path(f"{bfm_assets_folder}/facemodel_info.mat").exists():
             download_github_file("https://github.com/sicxu/Deep3DFaceRecon_pytorch/blob/master/BFM/facemodel_info.mat",
                                  f"{bfm_assets_folder}/facemodel_info.mat")
+
+        if not Path(f"{bfm_assets_folder}/select_vertex_id.mat").exists():
             download_github_file("https://github.com/sicxu/Deep3DFaceRecon_pytorch/blob/master/BFM/select_vertex_id.mat",
                                  f"{bfm_assets_folder}/select_vertex_id.mat")
+
+        if not Path(f"{bfm_assets_folder}/similarity_Lm3D_all.mat").exists():
             download_github_file("https://github.com/sicxu/Deep3DFaceRecon_pytorch/blob/master/BFM/similarity_Lm3D_all.mat",
                                  f"{bfm_assets_folder}/similarity_Lm3D_all.mat")
+
+        if not Path(f"{bfm_assets_folder}/std_exp.txt").exists():
             download_github_file("https://github.com/sicxu/Deep3DFaceRecon_pytorch/blob/master/BFM/std_exp.txt", f"{bfm_assets_folder}/std_exp.txt")
+
+        if not Path(f"{bfm_assets_folder}/epoch_20.pth").exists():
             gdown.download(id="15-38Iqv7vmZou8fDVBAt_c9PwgJn1BHo", output=f"{bfm_assets_folder}/epoch_20.pth")
+
+        if not Path(f"{bfm_assets_folder}/Exp_Pca.bin").exists():
+            gdown.download(id="1bw5Xf8C12pWmcMhNEu6PtsYVZkVucEN6", output=f"{bfm_assets_folder}/Exp_Pca.bin")
+
+        if not Path(f"{bfm_assets_folder}/01_MorphableModel.mat").exists():
+            print("[ERROR] Basel Face Model not downloaded. Please get access to BFM here: https://faces.dmi.unibas.ch/bfm/main.php?nav=1-2&id=downloads")
+            print(f"[ERROR] Then put 01_MorphableModel.mat into {bfm_assets_folder}/01_MorphableModel.mat")
 
         self.model_3dmm = Extract3dmm({
             'BFM': bfm_assets_folder,
