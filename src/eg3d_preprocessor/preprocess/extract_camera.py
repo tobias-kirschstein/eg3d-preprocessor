@@ -95,7 +95,7 @@ class CameraExtractor:
             download_github_file("https://github.com/sicxu/Deep3DFaceRecon_pytorch/blob/master/BFM/similarity_Lm3D_all.mat",
                                  f"{bfm_assets_folder}/similarity_Lm3D_all.mat")
             download_github_file("https://github.com/sicxu/Deep3DFaceRecon_pytorch/blob/master/BFM/std_exp.txt", f"{bfm_assets_folder}/std_exp.txt")
-            gdown.download("https://drive.google.com/file/d/15-38Iqv7vmZou8fDVBAt_c9PwgJn1BHo/view?usp=drive_link", f"{bfm_assets_folder}/epoch_20.pth")
+            gdown.download(id="15-38Iqv7vmZou8fDVBAt_c9PwgJn1BHo", output=f"{bfm_assets_folder}/epoch_20.pth")
 
         self.model_3dmm = Extract3dmm({
             'BFM': bfm_assets_folder,
