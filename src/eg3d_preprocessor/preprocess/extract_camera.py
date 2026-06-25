@@ -3,6 +3,9 @@ import os
 from pathlib import Path
 from typing import Tuple
 
+import gdown
+import requests
+
 from eg3d_preprocessor.preprocess.extract_landmark import get_landmark
 from eg3d_preprocessor.preprocess.extract_3dmm import Extract3dmm, align_img
 from eg3d_preprocessor.preprocess.process_camera import process_camera
@@ -48,12 +51,55 @@ def compute_rotation(angles):
     return rot.permute(0, 2, 1)[0]
 
 
+def download_github_file(url: str, local_path: str, chunk_size: int = 8192) -> None:
+    """
+    Download a file from a GitHub URL and save it locally.
+
+    Args:
+        url: GitHub file URL. Can be a raw.githubusercontent.com URL
+             or a normal GitHub blob URL.
+        local_path: Destination path on the local filesystem.
+        chunk_size: Download chunk size in bytes.
+
+    Raises:
+        requests.HTTPError: If the download fails.
+    """
+    # Convert GitHub "blob" URLs to raw URLs
+    if "github.com" in url and "/blob/" in url:
+        url = url.replace("github.com", "raw.githubusercontent.com")
+        url = url.replace("/blob/", "/")
+
+    response = requests.get(url, stream=True)
+    response.raise_for_status()
+
+    path = Path(local_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(path, "wb") as f:
+        for chunk in response.iter_content(chunk_size=chunk_size):
+            if chunk:
+                f.write(chunk)
+
+
 class CameraExtractor:
 
     def __init__(self):
+        bfm_assets_folder = f'{Path.home()}/.cache/BFM/'
+        if not Path(bfm_assets_folder).exists():
+            download_github_file("https://github.com/sicxu/Deep3DFaceRecon_pytorch/blob/master/BFM/BFM_exp_idx.mat", f"{bfm_assets_folder}/BFM_exp_idx.mat")
+            download_github_file("https://github.com/sicxu/Deep3DFaceRecon_pytorch/blob/master/BFM/BFM_front_idx.mat", f"{bfm_assets_folder}/BFM_front_idx.mat")
+            download_github_file("https://github.com/sicxu/Deep3DFaceRecon_pytorch/blob/master/BFM/facemodel_info.mat",
+                                 f"{bfm_assets_folder}/facemodel_info.mat")
+            download_github_file("https://github.com/sicxu/Deep3DFaceRecon_pytorch/blob/master/BFM/select_vertex_id.mat",
+                                 f"{bfm_assets_folder}/select_vertex_id.mat")
+            download_github_file("https://github.com/sicxu/Deep3DFaceRecon_pytorch/blob/master/BFM/similarity_Lm3D_all.mat",
+                                 f"{bfm_assets_folder}/similarity_Lm3D_all.mat")
+            download_github_file("https://github.com/sicxu/Deep3DFaceRecon_pytorch/blob/master/BFM/std_exp.txt", f"{bfm_assets_folder}/std_exp.txt")
+            gdown.download("https://drive.google.com/file/d/15-38Iqv7vmZou8fDVBAt_c9PwgJn1BHo/view?usp=drive_link", f"{bfm_assets_folder}/epoch_20.pth")
+
         self.model_3dmm = Extract3dmm({
-            'BFM': f'{Path.home()}/.cache/BFM/',
-            '3DMM': f'{Path.home()}/.cache/BFM/epoch_20.pth',
+            'BFM': bfm_assets_folder,
+            '3DMM': f'{bfm_assets_folder}/epoch_20.pth',
         })
         self.lm3d_std = self.model_3dmm.lm3d_std
 
